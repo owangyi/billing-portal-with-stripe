@@ -1,53 +1,44 @@
-# Accept a Payment with Stripe Checkout
+<p align="center">
+  <a href="https://example.com/license" style="text-decoration: none;">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License">
+  </a>
+  <a href="https://example.com/beta" style="text-decoration: none;">
+    <img src="https://img.shields.io/badge/Beta-Join%20the%20Beta-orange.svg" alt="Beta">
+  </a>
+</p>
 
-Stripe Checkout is the fastest way to get started with payments.
-
-## Blueprint
-![img.png](img.png)
-1. 进入 billing page(own site) 能看到 plan list ❌
-2. 能够选中一个~~/多个~~进行订阅 ❌
-3. 点击订阅跳转到「支付界面」✅
-4. 支付界面能使用各种支付方式，填写 billing address 等信息 ✅
-5. 订阅的时候可以选择「保存支付方式」（~~现在我们是「强制执行」的，用户不可以选择~~） 差 webhook set default method
-6. 订阅成功之后，返回 billing page
-   - 展示默认支付方式
-   - 展示订阅信息，并可以「更新订阅信息」
-7. 更新订阅的时候可以默认在 checkout 重复使用之前保存的支付方式 ✅
-8. 订阅时，可以在 checkout 添加折扣
-
-## Stripe table
-```
-| **特性** | **Checkout** | **Customer Portal** |
-| --- | --- | --- |
-| **核心用途** | 前端支付流程（新订单/订阅） | 后端账户管理（已有客户） |
-| **交互模式** | 支付表单（收集新支付信息） | 管理面板（修改现有信息） |
-| **数据依赖** | 必须包含商品/价格 (`line_items`) | 无需交易数据 |
-| **典型场景** | - 新订阅购买- 单次付款 | - 更换信用卡- 取消订阅 |
-| **合规要求** | PCI DSS SAQ A | PCI DSS Level 1 |
-```
+## About
+A billing page demo which help you to manage customer payment, including creating, updating, canceling subscription and payment method with Stripe [Checkout](https://docs.stripe.com/payments/checkout/build-integration) and [Billing Portal](https://docs.stripe.com/customer-management).
 
 ## Features
-- display price list ✅
-- select price & checkout price ✅
-- support multi-price selection (just line item array) ✅
-- supported payment method:
-  - credit card ✅
-  - link        ✅
-  - ach debit   ✅
-- support save payment method
-  - only credit card
-  - bank (why the bank payment cannot be saved?)
-- support only update payment method, no subscription
-- support discount
+1. support managing customer information
+2. support selecting multiple plans
+   ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2F163a7f5f-f475-409a-8619-01a5a7767360%2Fimage.png/size/w=2000?exp=1740300617&sig=bsGUcb4RayALWqnsd3X07rOzr3SjTAdV2KCrf_SwjoQ)
+3. checkout plans
+   ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2F273fc7d4-63e3-4fe1-85ac-e2a87a14ed16%2Fimage.png/size/w=2000?exp=1740300686&sig=SNj48SiqNPlpjYtffarFM-MPEHzD4cwyIOgmZ9ZwmFc)
+4. supported multiple payment method:
+    - credit card
+    - link       
+    - ach debit
+5. can save payment method for recurring revenue
+    ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2Ff206c842-8389-4a3e-ad0e-611c6f8519bf%2Fimage.png/size/w=2000?exp=1740300715&sig=_VpSVB5gSt4viBoI1Ej5t6E387Qt0SGStpMno7Ji1tU)
+6. manage subscribed subscriptions
+   - show subscription details
+   - update subscription item and quantity
+   - cancel subscription
+   - review purchase records
+   ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2F1f346667-65d2-41ff-9ee2-32232a07734c%2Fimage.png/size/w=2000?exp=1740300755&sig=B78xsCbRlkjTCioN_sDXUO89ddX6xv5tisuqP4HVo6g)
+   ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2Fa2bbc0d9-b2fe-4422-b2ef-abe8eafd8b0d%2Fimage.png/size/w=2000?exp=1740300806&sig=Nzhjxn5dNkNbSw6VsTDGSFY7LVhtRRwSpnRNp0miskM)
+   ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2Fd717bdb2-0c37-405b-8600-6498df7275d7%2Fimage.png/size/w=2000?exp=1740300842&sig=PUUWgw7Sf0bTHjPvRxP4lnTDEAdTRwCszfLohS-uxK4)
+9. manage payment method
+    - add new payment method
+    - delete
+    - mark as the default method
+   ![](https://img.notionusercontent.com/s3/prod-files-secure%2F82b8862c-d3ff-414b-8f5c-9225193c0611%2F89fd7509-056f-43c1-b062-2b55d67f3feb%2Fimage.png/size/w=2000?exp=1740300871&sig=99gmknuHX8LAZcEPlwW7ntw2EG0vapazFwJrqG1OMCc)
+## Demo
+No demo online
 
-- upgrade or downgrade subscription use saved payment method ❌ (bank account cannot be saved unless using link)
-
-
-## Set Price ID
-
-In the back end code, replace `{{PRICE_ID}}` with a Price ID (`price_xxx`) that you created.
-
-## Running the sample
+## Setup
 
 1. Build the server
 
@@ -73,4 +64,8 @@ npm install
 npm start
 ~~~
 
-5. Go to [http://localhost:3000/checkout](http://localhost:3000/checkout)
+5. Go to [http://localhost:3000](http://localhost:3000)
+
+## More（todo）
+1. discount
+2. ...
